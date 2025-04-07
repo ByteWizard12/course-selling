@@ -1,9 +1,7 @@
 // Log the environment variable to debug
 console.log('Backend URL:', import.meta.env.VITE_BACKEND_URL || process.env.REACT_APP_BACKEND_URL);
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 
-                   process.env.REACT_APP_BACKEND_URL || 
-                   'https://learning-hub-backend-ojrq.onrender.com';
+const BACKEND_URL = 'https://learning-hub-backend-ojrq.onrender.com';
 
 console.log('Using Backend URL:', BACKEND_URL);
 

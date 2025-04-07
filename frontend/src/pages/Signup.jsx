@@ -25,12 +25,22 @@ const Signup = () => {
   });
   const [error, setError] = useState('');
 
+  // Add logging to debug API endpoint
+  console.log('Signup endpoint:', API_ENDPOINTS.USER_SIGNUP);
+
   const signupMutation = useMutation(
     async (data) => {
       try {
-        const response = await axios.post(API_ENDPOINTS.USER_SIGNUP, data);
+        console.log('Making signup request to:', API_ENDPOINTS.USER_SIGNUP);
+        const response = await axios.post(API_ENDPOINTS.USER_SIGNUP, data, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        console.log('Signup response:', response.data);
         return response.data;
       } catch (error) {
+        console.error('Signup error details:', error);
         if (error.response?.data?.error) {
           throw new Error(Array.isArray(error.response.data.error) 
             ? error.response.data.error[0].message 
@@ -41,6 +51,7 @@ const Signup = () => {
     },
     {
       onSuccess: (data) => {
+        console.log('Signup successful:', data);
         if (data.token) {
           localStorage.setItem('token', data.token);
           navigate('/dashboard');
@@ -49,6 +60,7 @@ const Signup = () => {
         }
       },
       onError: (error) => {
+        console.error('Signup mutation error:', error);
         setError(error.message || 'An error occurred during signup');
       },
     }
