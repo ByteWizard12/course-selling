@@ -13,6 +13,7 @@ import {
 } from '@mui/material';
 import { useMutation } from 'react-query';
 import axios from 'axios';
+import { API_ENDPOINTS } from '../config';
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -27,7 +28,7 @@ const Signup = () => {
   const signupMutation = useMutation(
     async (data) => {
       try {
-        const response = await axios.post('http://localhost:3000/api/v1/user/signup', data);
+        const response = await axios.post(API_ENDPOINTS.USER_SIGNUP, data);
         return response.data;
       } catch (error) {
         if (error.response?.data?.error) {
