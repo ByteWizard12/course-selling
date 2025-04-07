@@ -1,5 +1,5 @@
 require('dotenv').config()
-console.log(process.env.MONGO_URL)
+console.log(process.env.MONGO_URI)
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
@@ -50,7 +50,7 @@ app.use((req, res) => {
 async function main() {
     try {
         // Connect to MongoDB with updated options
-        await mongoose.connect(process.env.MONGO_URL, {
+        await mongoose.connect(process.env.MONGO_URI, {
             maxPoolSize: 10,
             serverSelectionTimeoutMS: 5000,
             socketTimeoutMS: 45000,
