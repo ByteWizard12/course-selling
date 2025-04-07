@@ -1,5 +1,10 @@
 require('dotenv').config()
-console.log(process.env.MONGO_URI)
+// Add debug logging
+console.log('Environment Variables:');
+console.log('MONGO_URI:', process.env.MONGO_URI);
+console.log('NODE_ENV:', process.env.NODE_ENV);
+console.log('PORT:', process.env.PORT);
+
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
@@ -49,8 +54,13 @@ app.use((req, res) => {
 
 async function main() {
     try {
+        const mongoUri = process.env.MONGO_URI;
+        if (!mongoUri) {
+            throw new Error('MONGO_URI environment variable is not defined');
+        }
+
         // Connect to MongoDB with updated options
-        await mongoose.connect(process.env.MONGO_URI, {
+        await mongoose.connect(mongoUri, {
             maxPoolSize: 10,
             serverSelectionTimeoutMS: 5000,
             socketTimeoutMS: 45000,
@@ -65,7 +75,8 @@ async function main() {
             console.log(`Server is running on port ${PORT}`);
         });
     } catch (error) {
-        console.error("Failed to start server:", error);
+        console.error("Failed to start server:", error.message);
+        console.error("Full error:", error);
         process.exit(1);
     }
 }
