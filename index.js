@@ -46,10 +46,11 @@ async function main() {
     try {
         // Connect to MongoDB with updated options
         await mongoose.connect(process.env.MONGO_URL, {
-            // These options ensure stable connection
             maxPoolSize: 10,
             serverSelectionTimeoutMS: 5000,
             socketTimeoutMS: 45000,
+            retryWrites: true,
+            w: 'majority'
         });
         console.log("Connected to MongoDB");
 
