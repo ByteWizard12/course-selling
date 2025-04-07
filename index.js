@@ -12,9 +12,10 @@ const app = express();
 
 // Middleware
 app.use(cors({
-    origin: process.env.NODE_ENV === 'production' 
-        ? process.env.FRONTEND_URL 
-        : 'http://localhost:5173'
+    origin: '*',  // Allow all origins temporarily for testing
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+    credentials: true,
+    allowedHeaders: ['Content-Type', 'Authorization']
 }));
 app.use(morgan("dev"));
 app.use(express.json());
@@ -25,7 +26,11 @@ app.use("/api/v1/course", courseRouter);
 
 // Health check endpoint
 app.get('/health', (req, res) => {
-    res.json({ status: 'ok' });
+    res.json({ 
+        status: 'ok',
+        message: 'Server is running',
+        timestamp: new Date().toISOString()
+    });
 });
 
 // Error handling middleware
